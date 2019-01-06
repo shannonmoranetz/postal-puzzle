@@ -16,18 +16,17 @@ export default class AnswerBank extends Component {
 
   componentWillReceiveProps() {
     if (this.props.isLoaded === true) {
-      this.shuffle()
+      this.shuffleAnswers()
     }
   }
 
-  shuffle = () => {
+  shuffleAnswers = () => {
       let shuffledArray = this.props.currentIncorrectAnswers.sort(function(){
         return 0.5 - Math.random()
       })
       this.setState({
-        shuffledAnswers: shuffledArray
+        shuffledAnswers: shuffledArray.concat(this.props.currentAnswer)
       })
-
   }
 
   render() {
@@ -35,7 +34,6 @@ export default class AnswerBank extends Component {
       return(
         <div className="answer-bank">
         <ul>
-          <li>{this.props.currentAnswer}</li>                                                                                                               
           {
             this.state.shuffledAnswers.map((incorrectAnswer, index) => {
               return (

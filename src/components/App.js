@@ -11,10 +11,14 @@ export default class App extends Component {
     super();
     this.state = {
       allQuestions: [],
-      isLoaded: null,
+      isLoaded: false,
       currentQuestionCount: 0
     };
   };
+
+  // create an array with 4 strings for each possible answer
+  // send that to answerbank
+  // call the shuffle method on that array
 
   componentDidMount() {
     fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
