@@ -6,14 +6,12 @@ export default class AnswerBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
     };
   };
 
   checkAnswer = (isCorrect) => {
     this.props.checkAnswer(isCorrect)
   }
-
 
   render() {
     return(

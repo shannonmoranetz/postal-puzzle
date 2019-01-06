@@ -5,21 +5,13 @@ export default class AnswerCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSelected: false
     };
   };
 
-  componentWillReceiveProps() {
-    this.setState({
-      isSelected: false
-    })
-  }
 
-  checkSelection = () => {
-    this.setState({
-      isSelected: true
-    })
-    this.props.checkAnswer(this.state.isSelected)
+  checkSelection = (event) => {
+    let answerText = event.currentTarget.innerText;
+    this.props.checkAnswer(answerText)
   }
 
   render() {

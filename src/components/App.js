@@ -42,11 +42,12 @@ export default class App extends Component {
   }
 
   checkAnswer = (isCorrect) => {
-    if(isCorrect === true) {
+    if(isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
       console.log('correct!')
     } else {
       console.log('incorrect...')
     }
+    this.updateCurrentQuestion()
   }
 
   render() {
@@ -61,7 +62,7 @@ export default class App extends Component {
           <Character />
           <Options />
           <ScorePanel />
-          <button className="submit-guess" onClick={this.updateCurrentQuestion}>NEXT!</button>
+          {/* <button className="submit-guess" onClick={this.updateCurrentQuestion}>NEXT!</button> */}
         </div>
       )
     } else {
