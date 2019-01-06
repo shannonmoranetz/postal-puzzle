@@ -38,13 +38,13 @@ export default class App extends Component {
     return (
       <div className="app-container">
         <h1 className="app-title">Postal Puzzle</h1>
-        <button className="submit-guess" onClick={this.updateCurrentQuestion}>Answer!</button>
+        <QuestionCard currentQuestion={this.state.currentQuestion.question}/>
         <AnswerBank currentAnswer={this.state.currentQuestion.correctAnswer}
                     currentIncorrectAnswers={this.state.currentQuestion.incorrectAnswers}/>
         <Character />
         <Options />
-        <QuestionCard currentQuestion={this.state.currentQuestion.question}/>
         <ScorePanel />
+        <button className="submit-guess" onClick={this.updateCurrentQuestion}>Answer!</button>
       </div>
     )
   };

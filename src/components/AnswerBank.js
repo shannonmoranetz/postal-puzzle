@@ -11,8 +11,8 @@ export default function AnswerBank(props) {
           {
             props.currentIncorrectAnswers.map((incorrectAnswer, index) => {
               return (
-                // <AnswerCard key={index} answer={answer}/>       
-                <li>{incorrectAnswer}</li>                                                                                                               
+                <AnswerCard key={index} answer={incorrectAnswer}/>       
+                // <li>{incorrectAnswer}</li>                                                                                                               
               )
             })
           }
