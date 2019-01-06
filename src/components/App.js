@@ -16,10 +16,6 @@ export default class App extends Component {
     };
   };
 
-  // create an array with 4 strings for each possible answer
-  // send that to answerbank
-  // call the shuffle method on that array
-
   componentDidMount() {
     fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
       .then(response => response.json())
@@ -32,11 +28,12 @@ export default class App extends Component {
       .catch(error => console.log(error));
   };
 
+  // updating late, always 1 behind
   updateCurrentQuestion = () => {
     this.setState({
       currentQuestionCount: (this.state.currentQuestionCount + 1)
     });
-  }
+  };
 
   render() {
     if (this.state.isLoaded === true) {
@@ -44,9 +41,15 @@ export default class App extends Component {
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
+          {this.state.currentQuestionCount === 0 ? (
           <AnswerBank currentAnswer={this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}
                       currentIncorrectAnswers={this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers}
                       isLoaded={this.state.isLoaded}/>
+          ) : (
+            <AnswerBank currentAnswer={this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}
+                        currentIncorrectAnswers={this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers}
+                        isLoaded={this.state.isLoaded}/>
+          )}
           <Character />
           <Options />
           <ScorePanel />

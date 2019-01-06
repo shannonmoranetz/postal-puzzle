@@ -6,13 +6,13 @@ export default class AnswerBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shuffledAnswers: [
-        "An app used in React to create components.",
-        "A feature specific to Node.js.",
-        "Code that can't be re-used once it has executed."
-        ]
+      shuffledAnswers: []
     };
   };
+
+  componentDidMount() {
+    this.shuffleAnswers();
+  }
 
   componentWillReceiveProps() {
     if (this.props.isLoaded === true) {
@@ -29,10 +29,11 @@ export default class AnswerBank extends Component {
       })
   }
 
+
+
   render() {
-    if (this.props.isLoaded) {
-      return(
-        <div className="answer-bank">
+    return(
+      <div className="answer-bank">
         <ul>
           {
             this.state.shuffledAnswers.map((incorrectAnswer, index) => {
@@ -42,10 +43,6 @@ export default class AnswerBank extends Component {
             })
           }
         </ul>
-      </div>
-    )
-    } else {
-      return(null)
-    }
-  }
+    </div>
+  )} 
 };
