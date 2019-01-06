@@ -12,8 +12,7 @@ export default class App extends Component {
     this.state = {
       allQuestions: [],
       isLoaded: null,
-      currentQuestionCount: 0,
-      shuffledAnswers: []
+      currentQuestionCount: 0
     };
   };
 
@@ -29,21 +28,7 @@ export default class App extends Component {
       .catch(error => console.log(error));
   };
 
-  shuffle = () => {
-    if (this.state.isLoaded === true) {
-      let shuffledArray = this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers.sort(function(){
-        return 0.5 - Math.random()
-      })
-
-      this.setState({
-        shuffledAnswers: shuffledArray
-      })
-    }
-  }
-
-  // use this later after answering question
   updateCurrentQuestion = () => {
-    this.shuffle();
     this.setState({
       currentQuestionCount: (this.state.currentQuestionCount + 1)
     });
@@ -56,7 +41,7 @@ export default class App extends Component {
           <h1 className="app-title">Postal Puzzle</h1>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
           <AnswerBank currentAnswer={this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}
-                      currentIncorrectAnswers={this.state.shuffledAnswers}
+                      currentIncorrectAnswers={this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers}
                       isLoaded={this.state.isLoaded}/>
           <Character />
           <Options />
