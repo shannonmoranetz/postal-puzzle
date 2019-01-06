@@ -6,28 +6,11 @@ export default class AnswerBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shuffledAnswers: []
+      
     };
   };
 
-  componentDidMount() {
-    this.shuffleAnswers();
-  }
 
-  componentWillReceiveProps() {
-    if (this.props.isLoaded === true) {
-      this.shuffleAnswers()
-    }
-  }
-
-  shuffleAnswers = () => {
-      let shuffledArray = this.props.currentIncorrectAnswers.sort(function(){
-        return 0.5 - Math.random()
-      })
-      this.setState({
-        shuffledAnswers: shuffledArray.concat(this.props.currentAnswer)
-      })
-  }
 
 
 
@@ -36,7 +19,7 @@ export default class AnswerBank extends Component {
       <div className="answer-bank">
         <ul>
           {
-            this.state.shuffledAnswers.map((incorrectAnswer, index) => {
+            this.props.shuffledAnswers.map((incorrectAnswer, index) => {
               return (
                 <AnswerCard key={index} answer={incorrectAnswer}/>                                                                                                                  
               )

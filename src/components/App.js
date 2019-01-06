@@ -28,12 +28,18 @@ export default class App extends Component {
       .catch(error => console.log(error));
   };
 
-  // updating late, always 1 behind
   updateCurrentQuestion = () => {
     this.setState({
       currentQuestionCount: (this.state.currentQuestionCount + 1)
     });
   };
+
+  shuffleAnswers = () => {
+    let shuffledArray = this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers.sort(function(){
+      return 0.5 - Math.random()
+    })
+    return shuffledArray.concat(this.state.allQuestions[this.state.currentQuestionCount].correctAnswer)
+}
 
   render() {
     if (this.state.isLoaded === true) {
@@ -41,8 +47,7 @@ export default class App extends Component {
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
-          <AnswerBank currentAnswer={this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}
-                      currentIncorrectAnswers={this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers}
+          <AnswerBank shuffledAnswers={this.shuffleAnswers()}
                       isLoaded={this.state.isLoaded}/>
           <Character />
           <Options />
