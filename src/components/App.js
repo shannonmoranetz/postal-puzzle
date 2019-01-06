@@ -11,8 +11,9 @@ export default class App extends Component {
     super();
     this.state = {
       allQuestions: [],
-      currentQuestion: {},
-      currentQuestionCount: 0
+      isLoaded: null,
+      currentQuestionCount: 0,
+      shuffledAnswers: []
     };
   };
 
@@ -21,32 +22,55 @@ export default class App extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          allQuestions: data.questionData
+          allQuestions: data.questionData,
+          isLoaded: true
         });
       })
       .catch(error => console.log(error));
   };
 
+  shuffle = () => {
+    if (this.state.isLoaded === true) {
+      let shuffledArray = this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers.sort(function(){
+        return 0.5 - Math.random()
+      })
+
+      this.setState({
+        shuffledAnswers: shuffledArray
+      })
+    }
+  }
+
+  // use this later after answering question
   updateCurrentQuestion = () => {
+    this.shuffle();
     this.setState({
-      currentQuestionCount: (this.state.currentQuestionCount + 1),
-      currentQuestion: this.state.allQuestions[this.state.currentQuestionCount]
+      currentQuestionCount: (this.state.currentQuestionCount + 1)
     });
   }
 
   render() {
-    return (
-      <div className="app-container">
-        <h1 className="app-title">Postal Puzzle</h1>
-        <QuestionCard currentQuestion={this.state.currentQuestion.question}/>
-        <AnswerBank currentAnswer={this.state.currentQuestion.correctAnswer}
-                    currentIncorrectAnswers={this.state.currentQuestion.incorrectAnswers}/>
-        <Character />
-        <Options />
-        <ScorePanel />
-        <button className="submit-guess" onClick={this.updateCurrentQuestion}>Answer!</button>
-      </div>
-    )
+    if (this.state.isLoaded === true) {
+      return (
+        <div className="app-container">
+          <h1 className="app-title">Postal Puzzle</h1>
+          <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
+          <AnswerBank currentAnswer={this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}
+                      currentIncorrectAnswers={this.state.shuffledAnswers}
+                      isLoaded={this.state.isLoaded}/>
+          <Character />
+          <Options />
+          <ScorePanel />
+          <button className="submit-guess" onClick={this.updateCurrentQuestion}>NEXT!</button>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <p>loading...</p>
+        </div>
+      )
+    }
   };
 };
 

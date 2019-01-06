@@ -1,25 +1,34 @@
-import React from 'react';
+import React, { Component }  from 'react';
 import AnswerCard from './AnswerCard';
 import '../../src/styles/main.scss';
 
-export default function AnswerBank(props) {
-  if (props.currentIncorrectAnswers) {
-  return(
-    <div className="answer-bank">
-      <ul>
-        <li>{props.currentAnswer}</li>                                                                                                               
+export default class AnswerBank extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  };
+
+  
+
+  render() {
+    if (this.props.isLoaded) {
+      return(
+        <div className="answer-bank">
+        <ul>
+          <li>{this.props.currentAnswer}</li>                                                                                                               
           {
-            props.currentIncorrectAnswers.map((incorrectAnswer, index) => {
+            this.props.currentIncorrectAnswers.map((incorrectAnswer, index) => {
               return (
-                <AnswerCard key={index} answer={incorrectAnswer}/>       
-                // <li>{incorrectAnswer}</li>                                                                                                               
+                <AnswerCard key={index} answer={incorrectAnswer}/>                                                                                                                  
               )
             })
           }
-      </ul>
-    </div>
-  )
-  } else {
-    return(null)
+        </ul>
+      </div>
+    )
+    } else {
+      return(null)
+    }
   }
 };
