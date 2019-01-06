@@ -5,12 +5,26 @@ export default class AnswerCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSelected: false
     };
   };
 
+  componentWillReceiveProps() {
+    this.setState({
+      isSelected: false
+    })
+  }
+
+  checkSelection = () => {
+    this.setState({
+      isSelected: true
+    })
+    this.props.checkAnswer(this.state.isSelected)
+  }
+
   render() {
     return (
-      <li>{this.props.answer}</li>
+      <li onClick={this.checkSelection}>{this.props.answer}</li>
     )
   }  
 };

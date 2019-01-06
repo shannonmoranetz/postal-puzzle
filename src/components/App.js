@@ -39,7 +39,15 @@ export default class App extends Component {
       return 0.5 - Math.random()
     })
     return shuffledArray.concat(this.state.allQuestions[this.state.currentQuestionCount].correctAnswer)
-}
+  }
+
+  checkAnswer = (isCorrect) => {
+    if(isCorrect === true) {
+      console.log('correct!')
+    } else {
+      console.log('incorrect...')
+    }
+  }
 
   render() {
     if (this.state.isLoaded === true) {
@@ -48,7 +56,8 @@ export default class App extends Component {
           <h1 className="app-title">Postal Puzzle</h1>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
           <AnswerBank shuffledAnswers={this.shuffleAnswers()}
-                      isLoaded={this.state.isLoaded}/>
+                      isLoaded={this.state.isLoaded}
+                      checkAnswer={this.checkAnswer}/>
           <Character />
           <Options />
           <ScorePanel />
