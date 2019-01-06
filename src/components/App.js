@@ -41,15 +41,9 @@ export default class App extends Component {
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
-          {this.state.currentQuestionCount === 0 ? (
           <AnswerBank currentAnswer={this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}
                       currentIncorrectAnswers={this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers}
                       isLoaded={this.state.isLoaded}/>
-          ) : (
-            <AnswerBank currentAnswer={this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}
-                        currentIncorrectAnswers={this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers}
-                        isLoaded={this.state.isLoaded}/>
-          )}
           <Character />
           <Options />
           <ScorePanel />
