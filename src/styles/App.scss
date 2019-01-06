@@ -1,4 +1,24 @@
-body {
+.app-container {
   background-color: pink;
+  display: grid;
   font-family: $body-font;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: 
+  "header"
+  "main";
 }
+
+.app-title {
+  font-family: $heading-font;
+  font-size: 60px;
+  grid-area: "header";
+  justify-self: center;
+}
+
+.submit-guess {
+  width: 100px;
+  height: 40px;
+  grid-area: "header";
+  justify-self: center;
+}
+

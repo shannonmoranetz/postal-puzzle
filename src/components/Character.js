@@ -10,8 +10,6 @@ export default class Character extends Component {
 
 
   render() {
-    return (
-      <p className="b">hi: character</p>
-    )
+    return (null)
   }  
 };

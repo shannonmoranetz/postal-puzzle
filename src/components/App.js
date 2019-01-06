@@ -1,42 +1,52 @@
 import React, { Component } from 'react';
-import AnswerCard from './AnswerCard';
+import AnswerBank from './AnswerBank';
 import Character from './Character';
 import Options from './Options';
 import QuestionCard from './QuestionCard';
 import ScorePanel from './ScorePanel';
-import Splash from './Splash';
 import '../../src/styles/main.scss';
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      renderSplash: true
+      allQuestions: [],
+      currentQuestion: {},
+      currentQuestionCount: 0
     };
   };
 
-  toggleSplash = () => {
-    this.setState({
-      renderSplash: !this.state.renderSplash
-    });
+  componentDidMount() {
+    fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          allQuestions: data.questionData
+        });
+      })
+      .catch(error => console.log(error));
   };
 
+  updateCurrentQuestion = () => {
+    this.setState({
+      currentQuestionCount: (this.state.currentQuestionCount + 1),
+      currentQuestion: this.state.allQuestions[this.state.currentQuestionCount]
+    });
+  }
+
   render() {
-    if (this.state.renderSplash) {
-      return (
-        <Splash toggleSplash={this.toggleSplash}/>
-      )
-    } else {
-      return (
-        <div>
-        <AnswerCard />
+    return (
+      <div className="app-container">
+        <h1 className="app-title">Postal Puzzle</h1>
+        <button className="submit-guess" onClick={this.updateCurrentQuestion}>Answer!</button>
+        <AnswerBank currentAnswer={this.state.currentQuestion.correctAnswer}
+                    currentIncorrectAnswers={this.state.currentQuestion.incorrectAnswers}/>
         <Character />
         <Options />
-        <QuestionCard />
+        <QuestionCard currentQuestion={this.state.currentQuestion.question}/>
         <ScorePanel />
       </div>
-      )
-    }  
+    )
   };
 };
 

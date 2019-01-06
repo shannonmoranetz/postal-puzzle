@@ -1,8 +1,8 @@
 import React from 'react';
 import '../../src/styles/main.scss';
 
-export default function QuestionCard() {
-  return(
-    <p className="d">questioncard functional</p>
+export default function QuestionCard(props) {
+  return (
+    <p>{props.currentQuestion}</p>
   )
 };

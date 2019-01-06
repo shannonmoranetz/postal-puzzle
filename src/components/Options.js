@@ -9,8 +9,6 @@ export default class Options extends Component {
   };
 
   render() {
-    return (
-      <p className="c">hi: options</p>
-    )
+    return (null)
   }  
 };

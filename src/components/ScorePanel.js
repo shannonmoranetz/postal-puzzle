@@ -9,8 +9,6 @@ export default class ScorePanel extends Component {
   };
 
   render() {
-    return (
-      <p className="e">hi: scorepanel</p>
-    )
+    return (null)
   }  
 };

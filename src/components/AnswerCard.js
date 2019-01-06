@@ -10,7 +10,7 @@ export default class AnswerCard extends Component {
 
   render() {
     return (
-      <p className="a">hi: answercard</p>
+      <p>answercard</p>
     )
   }  
 };
