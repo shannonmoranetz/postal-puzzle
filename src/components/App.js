@@ -13,46 +13,75 @@ export default class App extends Component {
       allQuestions: [],
       isLoaded: false,
       currentQuestionCount: 0,
-      incorrectQuestionRefs: 0
+      incorrectQuestionRefs: [],
+      testState: []
     };
   };
 
+  componentWillMount() {
+    localStorage.getItem('incorrectQuestionRefs')
+    && this.setState ({
+      incorrectQuestionRefs: JSON.parse(localStorage.getItem('incorrectQuestionRefs'))
+    })
+  }
+
   componentDidMount() {
-    let value = localStorage.getItem('incorrectQuestionRefs');
-    value = JSON.parse(value)
-    fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          allQuestions: data.questionData,
-          isLoaded: true,
-          score: 0,
-          incorrectQuestionRefs: value || []
-        });
-      })
-      .catch(error => console.log(error));
+    this.fetchData();
+
+
   };
 
-  saveIncorrectQuestions = () => { 
-    localStorage.setItem('incorrectQuestionRefs', JSON.stringify())
+  assignAllQuestions = () => {
+    let newArray = this.state.allQuestions.map((question, index) => {
+      if (this.state.incorrectQuestionRefs.includes(index)) {
+        return question;
+      }
+    })
+    console.log(newArray)
+    this.setState({
+      testState: newArray
+    })
   }
 
-  fetchIncorrectQuestions = () => {
-    let value = localStorage.getItem('incorrectQuestionRefs');
-    value = JSON.parse(value)
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem('incorrectQuestionRefs', JSON.stringify(nextState.incorrectQuestionRefs))
   }
 
-  resetQuestionState = () => {
-    
+  fetchData = () => {
+    fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        allQuestions: data.questionData,
+        isLoaded: true,
+        score: 0
+      });
+    })
+    .catch(error => console.log(error));
+  }
 
-
-    // this.setState({
-    //   allQuestions: 
-    // })
+  checkAnswer = (isCorrect) => {
+    if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
+      console.log('correct!')
+      let trackIfCorrect = this.state.incorrectQuestionRefs.concat(this.state.currentQuestionCount);
+      this.setState({ incorrectQuestionRefs: trackIfCorrect })
+      this.updateScoreSum()
+    } else {
+      console.log('incorrect...')
+      let trackIfCorrect = this.state.incorrectQuestionRefs.concat(-1);
+      this.setState({ incorrectQuestionRefs: trackIfCorrect })
+    }
+    this.updateCurrentQuestion();
+    if (localStorage.getItem('incorrectQuestionRefs') !== [] && this.state.allQuestions !== []) {
+      this.assignAllQuestions()
+    }
   }
 
 
 
+
+
+  
 
   updateCurrentQuestion = () => {
     this.setState({
@@ -68,16 +97,6 @@ export default class App extends Component {
       return 0.5 - Math.random()
     })
     return shuffledArray;
-  }
-
-  checkAnswer = (isCorrect) => {
-    if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
-      console.log('correct!')
-      this.updateScoreSum()
-    } else {
-      console.log('incorrect...')
-    }
-    this.updateCurrentQuestion();
   }
 
   updateScoreSum = () => {
