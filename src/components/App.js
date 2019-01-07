@@ -27,24 +27,25 @@ export default class App extends Component {
 
   componentDidMount() {
     this.fetchData();
-
-
   };
 
   assignAllQuestions = () => {
     let newArray = this.state.allQuestions.map((question, index) => {
       if (this.state.incorrectQuestionRefs.includes(index)) {
         return question;
+      } else {
+        return 'deleted';
       }
     })
-    console.log(newArray)
+    let newerArray = newArray.filter(a => a !== 'deleted')
+    console.log(newerArray)
     this.setState({
-      testState: newArray
+      testState: newerArray
     })
   }
 
   componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem('incorrectQuestionRefs', JSON.stringify(nextState.incorrectQuestionRefs))
+    localStorage.setItem('incorrectQuestionRefs', JSON.stringify(nextState.incorrectQuestionRefs));
   }
 
   fetchData = () => {
@@ -77,6 +78,17 @@ export default class App extends Component {
     }
   }
 
+  checkIfGameOver = () => {
+    console.log(this.state.currentQuestionCount)
+    if (this.state.currentQuestionCount === 29) {
+      this.setState({
+        currentQuestionCount: 0,
+        score: 0,
+        allQuestions: this.state.testState
+      })
+    }
+  }
+
 
 
 
@@ -106,22 +118,13 @@ export default class App extends Component {
     })
   }
 
-  checkIfGameOver = () => {
-    console.log(this.state.currentQuestionCount)
-    if (this.state.currentQuestionCount === 29) {
-      this.setState({
-        currentQuestionCount: 0,
-        score: 0
-      })
-    }
-  }
+
 
   render() {
     if (this.state.isLoaded === true) {
       return (
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
-          <button onClick={this.resetQuestionState}>Repopulate with wrong answers</button>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
           <AnswerBank shuffledAnswers={this.shuffleAnswers()}
                       isLoaded={this.state.isLoaded}
