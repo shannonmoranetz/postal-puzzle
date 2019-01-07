@@ -12,12 +12,13 @@ export default class App extends Component {
     this.state = {
       allQuestions: [],
       isLoaded: false,
-      currentQuestionCount: 28
+      currentQuestionCount: 0,
+      incorrectQuestionRefs: 0
     };
   };
 
   componentDidMount() {
-    let value = localStorage.getItem('questionsAnsweredWrong');
+    let value = localStorage.getItem('incorrectQuestionRefs');
     value = JSON.parse(value)
     fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
       .then(response => response.json())
@@ -26,11 +27,32 @@ export default class App extends Component {
           allQuestions: data.questionData,
           isLoaded: true,
           score: 0,
-          questionsAnsweredWrong: value || []
+          incorrectQuestionRefs: value || []
         });
       })
       .catch(error => console.log(error));
   };
+
+  saveIncorrectQuestions = () => { 
+    localStorage.setItem('incorrectQuestionRefs', JSON.stringify())
+  }
+
+  fetchIncorrectQuestions = () => {
+    let value = localStorage.getItem('incorrectQuestionRefs');
+    value = JSON.parse(value)
+  }
+
+  resetQuestionState = () => {
+    
+
+
+    // this.setState({
+    //   allQuestions: 
+    // })
+  }
+
+
+
 
   updateCurrentQuestion = () => {
     this.setState({
@@ -65,15 +87,6 @@ export default class App extends Component {
     })
   }
 
-  saveIncorrectQuestions = (incorrectQuestions) => { 
-    localStorage.setItem('questionsAnsweredWrong', JSON.stringify(incorrectQuestions))
-  }
-
-  fetchIncorrectQuestions = () => {
-    let value = localStorage.getItem('questionsAnsweredWrong');
-    value = JSON.parse(value)
-  }
-
   checkIfGameOver = () => {
     console.log(this.state.currentQuestionCount)
     if (this.state.currentQuestionCount === 29) {
@@ -84,13 +97,12 @@ export default class App extends Component {
     }
   }
 
-
-
   render() {
     if (this.state.isLoaded === true) {
       return (
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
+          <button onClick={this.resetQuestionState}>Repopulate with wrong answers</button>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
           <AnswerBank shuffledAnswers={this.shuffleAnswers()}
                       isLoaded={this.state.isLoaded}
