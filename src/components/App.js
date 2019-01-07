@@ -12,7 +12,12 @@ export default class App extends Component {
     this.state = {
       allQuestions: [],
       isLoaded: false,
-      currentQuestionCount: 0
+      currentQuestionCount: 0,
+      questionsAnsweredWrong: []
+      // an array of objects of questions to reassign shuffledArray
+      // or maybe:
+      // an array of numbers that match the index of currentQuestionCount
+      // filter over questionsAnsweredWrong to reassign shuffledArray
     };
   };
 
@@ -50,6 +55,8 @@ export default class App extends Component {
       this.updateScoreSum()
     } else {
       console.log('incorrect...')
+      let incorrectQuestions = this.state.questionsAnsweredWrong.concat(this.state.allQuestions[this.state.currentQuestionCount])
+      this.saveIncorrectQuestions(incorrectQuestions)
     }
     this.updateCurrentQuestion()
   }
@@ -58,6 +65,14 @@ export default class App extends Component {
     let updatedScore = this.state.score + this.state.allQuestions[this.state.currentQuestionCount].pointsValue;
     this.setState({
       score: updatedScore
+    })
+  }
+
+  saveIncorrectQuestions = (incorrectQuestions) => { 
+    console.log(incorrectQuestions)
+    localStorage.setItem('questionsAnsweredWrong', JSON.stringify(incorrectQuestions))
+    this.setState({
+      questionsAnsweredWrong: incorrectQuestions
     })
   }
 

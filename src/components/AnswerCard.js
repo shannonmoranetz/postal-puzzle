@@ -16,7 +16,7 @@ export default class AnswerCard extends Component {
 
   render() {
     return (
-      <li onClick={this.checkSelection}>{this.props.answer}</li>
+      <li className="card" onClick={this.checkSelection}>{this.props.answer}</li>
     )
   }  
 };
