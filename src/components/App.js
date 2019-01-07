@@ -22,7 +22,8 @@ export default class App extends Component {
       .then(data => {
         this.setState({
           allQuestions: data.questionData,
-          isLoaded: true
+          isLoaded: true,
+          score: 0
         });
       })
       .catch(error => console.log(error));
@@ -35,10 +36,12 @@ export default class App extends Component {
   };
 
   shuffleAnswers = () => {
-    let shuffledArray = this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers.sort(function(){
+    let shuffledArray = [this.state.allQuestions[this.state.currentQuestionCount].correctAnswer]
+    shuffledArray = shuffledArray.concat(this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers)
+    shuffledArray.sort(function(){
       return 0.5 - Math.random()
     })
-    return shuffledArray.concat(this.state.allQuestions[this.state.currentQuestionCount].correctAnswer)
+    return shuffledArray;
   }
 
   checkAnswer = (isCorrect) => {
@@ -62,7 +65,6 @@ export default class App extends Component {
           <Character />
           <Options />
           <ScorePanel />
-          {/* <button className="submit-guess" onClick={this.updateCurrentQuestion}>NEXT!</button> */}
         </div>
       )
     } else {
