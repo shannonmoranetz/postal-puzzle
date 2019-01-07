@@ -12,10 +12,7 @@ export default class App extends Component {
     this.state = {
       allQuestions: [],
       isLoaded: false,
-      currentQuestionCount: 0,
-      questionsAnsweredWrong: []
-      // an array of objects of questions
-      // filter over questionsAnsweredWrong to reassign shuffledArray
+      currentQuestionCount: 28
     };
   };
 
@@ -39,6 +36,7 @@ export default class App extends Component {
     this.setState({
       currentQuestionCount: (this.state.currentQuestionCount + 1)
     });
+    this.checkIfGameOver()
   };
 
   shuffleAnswers = () => {
@@ -56,8 +54,6 @@ export default class App extends Component {
       this.updateScoreSum()
     } else {
       console.log('incorrect...')
-      let incorrectQuestions = this.state.questionsAnsweredWrong.concat(this.state.allQuestions[this.state.currentQuestionCount])
-      this.saveIncorrectQuestions(incorrectQuestions)
     }
     this.updateCurrentQuestion();
   }
@@ -70,23 +66,17 @@ export default class App extends Component {
   }
 
   saveIncorrectQuestions = (incorrectQuestions) => { 
-    // console.log(incorrectQuestions)
     localStorage.setItem('questionsAnsweredWrong', JSON.stringify(incorrectQuestions))
-      this.setState({
-        questionsAnsweredWrong: incorrectQuestions
-      })
   }
 
   fetchIncorrectQuestions = () => {
     let value = localStorage.getItem('questionsAnsweredWrong');
     value = JSON.parse(value)
-    this.setState({
-      questionsAnsweredWrong: value
-    })
   }
 
   checkIfGameOver = () => {
-    if (this.state.currentQuestionCount > this.state.allQuestions.length) {
+    console.log(this.state.currentQuestionCount)
+    if (this.state.currentQuestionCount === 29) {
       this.setState({
         currentQuestionCount: 0,
         score: 0
