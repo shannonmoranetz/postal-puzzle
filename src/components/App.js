@@ -38,7 +38,7 @@ export default class App extends Component {
   shuffleAnswers = () => {
     let shuffledArray = [this.state.allQuestions[this.state.currentQuestionCount].correctAnswer]
     shuffledArray = shuffledArray.concat(this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers)
-    shuffledArray.sort(function(){
+    shuffledArray.sort(() => {
       return 0.5 - Math.random()
     })
     return shuffledArray;
