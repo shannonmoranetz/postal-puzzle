@@ -14,21 +14,22 @@ export default class App extends Component {
       isLoaded: false,
       currentQuestionCount: 0,
       questionsAnsweredWrong: []
-      // an array of objects of questions to reassign shuffledArray
-      // or maybe:
-      // an array of numbers that match the index of currentQuestionCount
+      // an array of objects of questions
       // filter over questionsAnsweredWrong to reassign shuffledArray
     };
   };
 
   componentDidMount() {
+    let value = localStorage.getItem('questionsAnsweredWrong');
+    value = JSON.parse(value)
     fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
       .then(response => response.json())
       .then(data => {
         this.setState({
           allQuestions: data.questionData,
           isLoaded: true,
-          score: 0
+          score: 0,
+          questionsAnsweredWrong: value || []
         });
       })
       .catch(error => console.log(error));
@@ -50,7 +51,7 @@ export default class App extends Component {
   }
 
   checkAnswer = (isCorrect) => {
-    if(isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
+    if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
       console.log('correct!')
       this.updateScoreSum()
     } else {
@@ -58,7 +59,7 @@ export default class App extends Component {
       let incorrectQuestions = this.state.questionsAnsweredWrong.concat(this.state.allQuestions[this.state.currentQuestionCount])
       this.saveIncorrectQuestions(incorrectQuestions)
     }
-    this.updateCurrentQuestion()
+    this.updateCurrentQuestion();
   }
 
   updateScoreSum = () => {
@@ -69,12 +70,22 @@ export default class App extends Component {
   }
 
   saveIncorrectQuestions = (incorrectQuestions) => { 
-    console.log(incorrectQuestions)
+    // console.log(incorrectQuestions)
     localStorage.setItem('questionsAnsweredWrong', JSON.stringify(incorrectQuestions))
+      this.setState({
+        questionsAnsweredWrong: incorrectQuestions
+      })
+  }
+
+  fetchIncorrectQuestions = () => {
+    let value = localStorage.getItem('questionsAnsweredWrong');
+    value = JSON.parse(value)
     this.setState({
-      questionsAnsweredWrong: incorrectQuestions
+      questionsAnsweredWrong: value
     })
   }
+
+
 
   render() {
     if (this.state.isLoaded === true) {
