@@ -47,10 +47,18 @@ export default class App extends Component {
   checkAnswer = (isCorrect) => {
     if(isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
       console.log('correct!')
+      this.updateScoreSum()
     } else {
       console.log('incorrect...')
     }
     this.updateCurrentQuestion()
+  }
+
+  updateScoreSum = () => {
+    let updatedScore = this.state.score + this.state.allQuestions[this.state.currentQuestionCount].pointsValue;
+    this.setState({
+      score: updatedScore
+    })
   }
 
   render() {
@@ -64,7 +72,7 @@ export default class App extends Component {
                       checkAnswer={this.checkAnswer}/>
           <Character />
           <Options />
-          <ScorePanel />
+          <ScorePanel score={this.state.score}/>
         </div>
       )
     } else {

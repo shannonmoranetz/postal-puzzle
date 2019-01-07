@@ -9,6 +9,8 @@ export default class ScorePanel extends Component {
   };
 
   render() {
-    return (null)
+    return (
+      <h3>{this.props.score}</h3>
+    )
   }  
 };
