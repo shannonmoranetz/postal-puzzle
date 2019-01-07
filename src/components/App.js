@@ -85,6 +85,15 @@ export default class App extends Component {
     })
   }
 
+  checkIfGameOver = () => {
+    if (this.state.currentQuestionCount > this.state.allQuestions.length) {
+      this.setState({
+        currentQuestionCount: 0,
+        score: 0
+      })
+    }
+  }
+
 
 
   render() {
