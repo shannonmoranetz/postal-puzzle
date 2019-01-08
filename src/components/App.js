@@ -13,8 +13,8 @@ export default class App extends Component {
       allQuestions: [],
       isLoaded: false,
       currentQuestionCount: 0,
-      questionIDs: [],
-      score: 0
+      score: 0,
+      answerIsCorrect: true
     };
   };
 
@@ -30,7 +30,7 @@ export default class App extends Component {
         allQuestions: data.questionData,
         isLoaded: true,
         score: 0
-      });
+      })
     })
     .catch(error => console.log(error));
   }
@@ -39,8 +39,14 @@ export default class App extends Component {
     if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
       console.log('correct!')
       this.updateScoreSum()
+      this.setState({
+        answerIsCorrect: true
+      })
     } else {
       console.log('incorrect...')
+      this.setState({
+        answerIsCorrect: false
+      })
     }
     this.updateCurrentQuestion();
   }
@@ -57,9 +63,9 @@ export default class App extends Component {
   updateCurrentQuestion = () => {
     this.setState({
       currentQuestionCount: (this.state.currentQuestionCount + 1)
-    });
+    })
     this.checkIfGameOver()
-  };
+  }
 
   shuffleAnswers = () => {
     let shuffledArray = [this.state.allQuestions[this.state.currentQuestionCount].correctAnswer]
@@ -77,12 +83,18 @@ export default class App extends Component {
     })
   }
 
+  nextQuestion = () => {
+    this.setState({
+      answerIsCorrect: true
+    })
+  }
+
   render() {
-    if (this.state.isLoaded === true) {
+    if (this.state.isLoaded === true && this.state.answerIsCorrect === true) {
       return (
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
-          <h3>Question #{this.state.currentQuestionCount}</h3>
+          <h3>Question #{(this.state.currentQuestionCount + 1)}</h3>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
           <AnswerBank shuffledAnswers={this.shuffleAnswers()}
                       isLoaded={this.state.isLoaded}
@@ -90,6 +102,16 @@ export default class App extends Component {
           <Character />
           <Options />
           <ScorePanel score={this.state.score}/>
+        </div>
+      )
+    } else if (this.state.isLoaded === true && this.state.answerIsCorrect === false) {
+      return (
+        <div className="app-container">
+          <h1 className="app-title">Postal Puzzle</h1>
+          <p>Incorrect...</p>
+          <p>The correct answer was:</p>
+          <p>{this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}</p>
+          <button onClick={this.nextQuestion}>Next Question</button>
         </div>
       )
     } else {
