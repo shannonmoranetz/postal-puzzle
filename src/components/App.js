@@ -17,68 +17,13 @@ export default class App extends Component {
     };
   };
 
-  retrieveQuestions = () => {
-    if (!localStorage.getitem('questionIDs') === null) {
-
-    let questionIDs = JSON.parse(localStorage.getItem('questionIDs'))
-
-    let questionsGuessedWrong = this.state.allQuestions.filter(question => {
-      if (questionIDs.includes(question.id)) {
-        return question;
-      }
-    })
-
-      this.setState({
-        allQuestions: questionsGuessedWrong
-      })
-    }
-
-  }
-
-  checkAnswer = (isCorrect) => {
-    if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
-      console.log('correct!')
-
-      // localStorage.setItem('questionIDs', JSON.stringify(questionIDs))
-
-
-      this.updateScoreSum()
-    } else {
-      console.log('incorrect...')
-
-      let existingQuestionIDs = this.state.questionIDs
-      this.setState({
-        questionIDs: existingQuestionIDs.concat(this.state.currentQuestionCount)
-      });
-
-    }
-    this.updateCurrentQuestion();
-  }
-
   componentDidMount() {
     this.fetchData();
     localStorage.getItem('questionIDs')
     && this.setState ({
       questionIDs: JSON.parse(localStorage.getItem('questionIDs'))
-    }, this.retrieveQuestions())
+    })
   };
-
-  // localStorage.setItem('questionIDs', JSON.stringify(nextState.questionIDs));
-
-  // assignAllQuestions = () => {
-  //   let newArray = this.state.allQuestions.map((question, index) => {
-  //     if (this.state.questionIDs.includes(index)) {
-  //       return question;
-  //     } else {
-  //       return 'deleted';
-  //     }
-  //   })
-  //   let newerArray = newArray.filter(a => a !== 'deleted')
-  //   console.log(newerArray)
-  //   this.setState({
-  //     testState: newerArray
-  //   })
-  // }
 
   fetchData = () => {
     fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
@@ -88,20 +33,64 @@ export default class App extends Component {
         allQuestions: data.questionData,
         isLoaded: true,
         score: 0
-      });
+      }, this.retrieveQuestions(data));
     })
     .catch(error => console.log(error));
   }
 
+  retrieveQuestions = (data) => {
+    if (localStorage.getItem('questionIDs') !== null) {
+
+      let questionIDs = JSON.parse(localStorage.getItem('questionIDs'))
+      let questions = data.questionData
+      
+      let questionsGuessedWrong = questions.filter(question => {
+        if (questionIDs.includes(question.questionID)) {
+          return question;
+        }
+      })
+      console.log(questionsGuessedWrong)
+      this.setState({
+        allQuestions: questionsGuessedWrong
+      })
+    }
+  }
+
+  // updateQuestions(questionsGuessedWrong) {
+  //   this.setState({
+  //     allQuestions: questionsGuessedWrong
+  //   })
+  // }
+
+  checkAnswer = (isCorrect) => {
+    if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
+      console.log('correct!')
+      this.updateScoreSum()
+    } else {
+      console.log('incorrect...')
+      let existingQuestionIDs = this.state.questionIDs
+      this.setState({
+        questionIDs: existingQuestionIDs.concat(this.state.currentQuestionCount)
+      }, this.saveToLocalStorage());
+    }
+    this.updateCurrentQuestion();
+  }
+
+  saveToLocalStorage = () => {
+    localStorage.setItem('questionIDs', JSON.stringify(this.state.questionIDs))
+  } 
+
+ 
+
+
+
 
 
   checkIfGameOver = () => {
-    console.log(this.state.currentQuestionCount)
     if (this.state.currentQuestionCount === 29) {
       this.setState({
         currentQuestionCount: 0,
-        score: 0,
-        allQuestions: this.state.testState
+        score: 0
       })
     }
   }
