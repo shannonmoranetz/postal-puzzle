@@ -14,16 +14,12 @@ export default class App extends Component {
       isLoaded: false,
       currentQuestionCount: 0,
       questionIDs: [],
-      incorrectQuestions: []
+      score: 0
     };
   };
 
   componentDidMount = () => {
-    this.fetchData();
-    localStorage.getItem('questionIDs')
-    && this.setState ({
-      questionIDs: JSON.parse(localStorage.getItem('questionIDs'))
-    })
+    this.fetchData()
   };
 
   fetchData = () => {
@@ -34,27 +30,9 @@ export default class App extends Component {
         allQuestions: data.questionData,
         isLoaded: true,
         score: 0
-      }, this.retrieveQuestions(data));
+      });
     })
     .catch(error => console.log(error));
-  }
-
-  retrieveQuestions = (data) => {
-    if (localStorage.getItem('questionIDs') !== null) {
-
-      let questionIDs = JSON.parse(localStorage.getItem('questionIDs'))
-      let questions = data.questionData
-      
-      let questionsGuessedWrong = questions.filter(question => {
-        if (questionIDs.includes(question.questionID)) {
-          return question;
-        }
-      })
-      console.log(questionsGuessedWrong)
-      this.setState({
-        allQuestions: questionsGuessedWrong
-      });
-    }
   }
 
   checkAnswer = (isCorrect) => {
@@ -63,23 +41,9 @@ export default class App extends Component {
       this.updateScoreSum()
     } else {
       console.log('incorrect...')
-      let existingQuestionIDs = this.state.questionIDs
-      this.setState({
-        questionIDs: existingQuestionIDs.concat(this.state.currentQuestionCount)
-      }, this.saveToLocalStorage());
     }
     this.updateCurrentQuestion();
   }
-
-  saveToLocalStorage = () => {
-    localStorage.setItem('questionIDs', JSON.stringify(this.state.questionIDs))
-  } 
-
- 
-
-
-
-
 
   checkIfGameOver = () => {
     if (this.state.currentQuestionCount === 29) {
@@ -89,12 +53,6 @@ export default class App extends Component {
       })
     }
   }
-
-
-
-
-
-  
 
   updateCurrentQuestion = () => {
     this.setState({
@@ -118,8 +76,6 @@ export default class App extends Component {
       score: updatedScore
     })
   }
-
-
 
   render() {
     if (this.state.isLoaded === true) {
