@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App should display buttons, instructions, and svgs 1`] = `
+<div>
+  <p>
+    loading...
+  </p>
+</div>
+`;
+
+exports[`App should properly  1`] = `
+<div>
+  <p>
+    loading...
+  </p>
+</div>
+`;
+
+exports[`App should properly render the component elements 1`] = `
+<div>
+  <p>
+    loading...
+  </p>
+</div>
+`;

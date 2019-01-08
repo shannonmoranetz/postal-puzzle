@@ -32,6 +32,15 @@ export default class App extends Component {
     .catch(error => console.log(error));
   }
 
+  shuffleAnswers = () => {
+    let shuffledArray = [this.state.allQuestions[this.state.currentQuestionCount].correctAnswer]
+    shuffledArray = shuffledArray.concat(this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers)
+    shuffledArray.sort(() => {
+      return 0.5 - Math.random()
+    })
+    return shuffledArray;
+  }
+
   checkAnswer = (isCorrect) => {
     if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
       this.updateScoreSum()
@@ -46,13 +55,11 @@ export default class App extends Component {
     this.updateCurrentQuestion();
   }
 
-  checkIfGameOver = () => {
-    if (this.state.currentQuestionCount === 29) {
-      this.setState({
-        currentQuestionCount: 0,
-        score: 0
-      })
-    }
+  updateScoreSum = () => {
+    let updatedScore = this.state.score + this.state.allQuestions[this.state.currentQuestionCount].pointsValue;
+    this.setState({
+      score: updatedScore
+    })
   }
 
   updateCurrentQuestion = () => {
@@ -62,26 +69,19 @@ export default class App extends Component {
     this.checkIfGameOver()
   }
 
-  shuffleAnswers = () => {
-    let shuffledArray = [this.state.allQuestions[this.state.currentQuestionCount].correctAnswer]
-    shuffledArray = shuffledArray.concat(this.state.allQuestions[this.state.currentQuestionCount].incorrectAnswers)
-    shuffledArray.sort(() => {
-      return 0.5 - Math.random()
-    })
-    return shuffledArray;
-  }
-
-  updateScoreSum = () => {
-    let updatedScore = this.state.score + this.state.allQuestions[this.state.currentQuestionCount].pointsValue;
-    this.setState({
-      score: updatedScore
-    })
-  }
-
-  nextQuestion = () => {
+  moveToNextQuestion = () => {
     this.setState({
       answerIsCorrect: true
     })
+  }
+
+  checkIfGameOver = () => {
+    if (this.state.currentQuestionCount === 29) {
+      this.setState({
+        currentQuestionCount: 0,
+        score: 0
+      })
+    }
   }
 
   render() {
@@ -106,7 +106,7 @@ export default class App extends Component {
           <p>Incorrect...</p>
           <p>The correct answer was:</p>
           <p>{this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}</p>
-          <button onClick={this.nextQuestion}>Next Question</button>
+          <button className="confirm-move-on" onClick={this.moveToNextQuestion}>Next Question</button>
         </div>
       )
     } else {
