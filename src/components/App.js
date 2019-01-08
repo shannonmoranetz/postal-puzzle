@@ -13,40 +13,72 @@ export default class App extends Component {
       allQuestions: [],
       isLoaded: false,
       currentQuestionCount: 0,
-      incorrectQuestionRefs: [],
-      testState: []
+      questionIDs: []
     };
   };
 
-  componentWillMount() {
-    localStorage.getItem('incorrectQuestionRefs')
-    && this.setState ({
-      incorrectQuestionRefs: JSON.parse(localStorage.getItem('incorrectQuestionRefs'))
+  retrieveQuestions = () => {
+    if (!localStorage.getitem('questionIDs') === null) {
+
+    let questionIDs = JSON.parse(localStorage.getItem('questionIDs'))
+
+    let questionsGuessedWrong = this.state.allQuestions.filter(question => {
+      if (questionIDs.includes(question.id)) {
+        return question;
+      }
     })
+
+      this.setState({
+        allQuestions: questionsGuessedWrong
+      })
+    }
+
+  }
+
+  checkAnswer = (isCorrect) => {
+    if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
+      console.log('correct!')
+
+      // localStorage.setItem('questionIDs', JSON.stringify(questionIDs))
+
+
+      this.updateScoreSum()
+    } else {
+      console.log('incorrect...')
+
+      let existingQuestionIDs = this.state.questionIDs
+      this.setState({
+        questionIDs: existingQuestionIDs.concat(this.state.currentQuestionCount)
+      });
+
+    }
+    this.updateCurrentQuestion();
   }
 
   componentDidMount() {
     this.fetchData();
+    localStorage.getItem('questionIDs')
+    && this.setState ({
+      questionIDs: JSON.parse(localStorage.getItem('questionIDs'))
+    }, this.retrieveQuestions())
   };
 
-  assignAllQuestions = () => {
-    let newArray = this.state.allQuestions.map((question, index) => {
-      if (this.state.incorrectQuestionRefs.includes(index)) {
-        return question;
-      } else {
-        return 'deleted';
-      }
-    })
-    let newerArray = newArray.filter(a => a !== 'deleted')
-    console.log(newerArray)
-    this.setState({
-      testState: newerArray
-    })
-  }
+  // localStorage.setItem('questionIDs', JSON.stringify(nextState.questionIDs));
 
-  componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem('incorrectQuestionRefs', JSON.stringify(nextState.incorrectQuestionRefs));
-  }
+  // assignAllQuestions = () => {
+  //   let newArray = this.state.allQuestions.map((question, index) => {
+  //     if (this.state.questionIDs.includes(index)) {
+  //       return question;
+  //     } else {
+  //       return 'deleted';
+  //     }
+  //   })
+  //   let newerArray = newArray.filter(a => a !== 'deleted')
+  //   console.log(newerArray)
+  //   this.setState({
+  //     testState: newerArray
+  //   })
+  // }
 
   fetchData = () => {
     fetch('http://memoize-datasets.herokuapp.com/api/v1/questionData')
@@ -61,22 +93,7 @@ export default class App extends Component {
     .catch(error => console.log(error));
   }
 
-  checkAnswer = (isCorrect) => {
-    if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
-      console.log('correct!')
-      let trackIfCorrect = this.state.incorrectQuestionRefs.concat(this.state.currentQuestionCount);
-      this.setState({ incorrectQuestionRefs: trackIfCorrect })
-      this.updateScoreSum()
-    } else {
-      console.log('incorrect...')
-      let trackIfCorrect = this.state.incorrectQuestionRefs.concat(-1);
-      this.setState({ incorrectQuestionRefs: trackIfCorrect })
-    }
-    this.updateCurrentQuestion();
-    if (localStorage.getItem('incorrectQuestionRefs') !== [] && this.state.allQuestions !== []) {
-      this.assignAllQuestions()
-    }
-  }
+
 
   checkIfGameOver = () => {
     console.log(this.state.currentQuestionCount)
@@ -125,6 +142,7 @@ export default class App extends Component {
       return (
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
+          <h3>Question #{this.state.currentQuestionCount}</h3>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
           <AnswerBank shuffledAnswers={this.shuffleAnswers()}
                       isLoaded={this.state.isLoaded}
