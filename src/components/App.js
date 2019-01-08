@@ -13,11 +13,12 @@ export default class App extends Component {
       allQuestions: [],
       isLoaded: false,
       currentQuestionCount: 0,
-      questionIDs: []
+      questionIDs: [],
+      incorrectQuestions: []
     };
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.fetchData();
     localStorage.getItem('questionIDs')
     && this.setState ({
@@ -52,15 +53,9 @@ export default class App extends Component {
       console.log(questionsGuessedWrong)
       this.setState({
         allQuestions: questionsGuessedWrong
-      })
+      });
     }
   }
-
-  // updateQuestions(questionsGuessedWrong) {
-  //   this.setState({
-  //     allQuestions: questionsGuessedWrong
-  //   })
-  // }
 
   checkAnswer = (isCorrect) => {
     if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
