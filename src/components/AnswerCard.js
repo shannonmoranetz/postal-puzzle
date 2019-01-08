@@ -4,8 +4,6 @@ import '../../src/styles/main.scss';
 export default class AnswerCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
   };
 
 

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import AnswerBank from './AnswerBank';
-import Character from './Character';
-import Options from './Options';
 import QuestionCard from './QuestionCard';
-import ScorePanel from './ScorePanel';
 import '../../src/styles/main.scss';
 
 export default class App extends Component {
@@ -37,13 +34,11 @@ export default class App extends Component {
 
   checkAnswer = (isCorrect) => {
     if (isCorrect === this.state.allQuestions[this.state.currentQuestionCount].correctAnswer) {
-      console.log('correct!')
       this.updateScoreSum()
       this.setState({
         answerIsCorrect: true
       })
     } else {
-      console.log('incorrect...')
       this.setState({
         answerIsCorrect: false
       })
@@ -94,20 +89,20 @@ export default class App extends Component {
       return (
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
+          <p>{this.state.score}</p>
           <h3>Question #{(this.state.currentQuestionCount + 1)}</h3>
           <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
           <AnswerBank shuffledAnswers={this.shuffleAnswers()}
                       isLoaded={this.state.isLoaded}
                       checkAnswer={this.checkAnswer}/>
-          <Character />
-          <Options />
-          <ScorePanel score={this.state.score}/>
         </div>
       )
     } else if (this.state.isLoaded === true && this.state.answerIsCorrect === false) {
       return (
         <div className="app-container">
           <h1 className="app-title">Postal Puzzle</h1>
+          <p>{this.state.score}</p>
+          <h3>Question #{(this.state.currentQuestionCount)}</h3>
           <p>Incorrect...</p>
           <p>The correct answer was:</p>
           <p>{this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}</p>

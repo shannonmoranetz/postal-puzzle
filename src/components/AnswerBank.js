@@ -5,8 +5,6 @@ import '../../src/styles/main.scss';
 export default class AnswerBank extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
   };
 
   checkAnswer = (isCorrect) => {
