@@ -3,6 +3,8 @@ body {
   background-size: cover;
 }
 
+// containers
+
 .header-bar {
   background-color: #A67086;
   border-bottom: 4px solid #5D5156;
@@ -39,6 +41,14 @@ body {
   text-align: center;
 }
 
+.incorrect-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 85vh;
+  justify-content: center;
+}
+
 .question-heading {
   background-color: #c98fa6;
   width: 100%;
@@ -47,6 +57,8 @@ body {
   box-shadow: $shadow;
 }
 
+// elements
+
 .app-title {
   font-family: $heading-font;
   font-size: 60px;
@@ -54,7 +66,7 @@ body {
   margin: 0px;
   padding: 20px;
   text-align: center;
-  text-shadow: 2px 2px #5D5156;
+  text-shadow: 2px 2px $primary-color;
   color: #e8e4e3;
 }
 
@@ -65,23 +77,15 @@ body {
   font-weight: $emphasis;
 }
 
-.question-count {
-  font-size: 25px;
-  text-decoration: underline;
-  font-family: $body-font;
-}
-
 .question {
   @extend .score;
   text-align: center;
 }
 
-.category {
-
-}
-
-.difficulty {
-
+.question-count {
+  font-size: 25px;
+  text-decoration: underline;
+  font-family: $body-font;
 }
 
 .points-value {
@@ -97,13 +101,7 @@ body {
   @extend .category-bold;
 }
 
-.incorrect-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 85vh;
-  justify-content: center;
-}
+
 
 .incorrect-info-elements {
   display: flex;
@@ -150,8 +148,15 @@ body {
   border-radius: $rounded-corners;
   font-weight: bold;
   box-shadow: $shadow;
-  border: 2px solid #5D5156;
+  border: 2px solid $primary-color;
   background-color: #e2a1bb;
+}
+
+// hover states
+
+.confirm-move-on:hover {
+  cursor: pointer;
+  border: $hover-border;
 }
 
 
