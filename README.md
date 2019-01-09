@@ -9,8 +9,8 @@ Localstorage was implemented but later removed, with plans to re-introduce it af
 The next future development goal is to re-implement the components that were removed during the refactor phase. 
 
 ## Current Version:
-[!App](https://i.imgur.com/Va3ocvW.jpg "App Display")
-[!Incorrect](https://i.imgur.com/nUQOjEv.jpg "Incorrect Question Display")
+![App](https://i.imgur.com/Va3ocvW.jpg "App Display")
+![Incorrect](https://i.imgur.com/nUQOjEv.jpg "Incorrect Question Display")
 
 ### Wireframe:
 ![Wireframe](https://i.imgur.com/5xicq69.png "Wireframe")
