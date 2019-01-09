@@ -18,7 +18,7 @@ body {
   flex-direction: column;
   display: flex;
   align-items: center;
-  border: 10px solid #A67086;
+  border: 10px solid #5D5156;
   font-family: $heading-font;
   font-size: 20px;
   text-align: center;
@@ -39,6 +39,14 @@ body {
   text-align: center;
 }
 
+.question-heading {
+  background-color: #c98fa6;
+  width: 100%;
+  text-align: center;
+  border-radius: $rounded-corners;
+  box-shadow: $shadow;
+}
+
 .app-title {
   font-family: $heading-font;
   font-size: 60px;
@@ -47,6 +55,7 @@ body {
   padding: 20px;
   text-align: center;
   text-shadow: 2px 2px #5D5156;
+  color: #e8e4e3;
 }
 
 .score {
@@ -64,7 +73,6 @@ body {
 
 .question {
   @extend .score;
-  width: 70%;
   text-align: center;
 }
 
@@ -89,12 +97,23 @@ body {
   @extend .category-bold;
 }
 
-.app-container-alt {
+.incorrect-info-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: 85vh;
   justify-content: center;
+}
+
+.incorrect-info-elements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $opaque-tan;
+  padding: 25px;
+  border-radius: $rounded-corners;
+  border: $border;
+  width: 50%;
 }
 
 .app-title-alt {
@@ -118,7 +137,7 @@ body {
 
 .show-correct {
   font-size: 30px;
-  background-color: white;
+  background-color: $opaque-white;
   padding: 20px;
   border: $border;
   border-radius: $rounded-corners;
@@ -131,7 +150,8 @@ body {
   border-radius: $rounded-corners;
   font-weight: bold;
   box-shadow: $shadow;
-  border: 1px solid #5D5156;
+  border: 2px solid #5D5156;
+  background-color: #e2a1bb;
 }
 
 

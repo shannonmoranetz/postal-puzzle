@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import AnswerBank from './AnswerBank';
-import QuestionCard from './QuestionCard';
 import '../../src/styles/main.scss';
 
 export default class App extends Component {
@@ -102,7 +101,7 @@ export default class App extends Component {
           </div>
          <div className="game-container">
             <h3 className="question-count">Question #{(this.state.currentQuestionCount + 1)}</h3>
-            <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
+            <p className="question">{this.state.allQuestions[this.state.currentQuestionCount].question}</p>
             <AnswerBank shuffledAnswers={this.shuffleAnswers()}
                         isLoaded={this.state.isLoaded}
                         checkAnswer={this.checkAnswer}/>
@@ -114,13 +113,19 @@ export default class App extends Component {
       return (
         <div className="app-container-alt">
           <div className="header-bar">
-            <h1 className="app-title-alt">Postal Puzzle</h1>
+            <h1 className="app-title">Postal Puzzle</h1>
           </div>
-          <h3 className="question-alt">Question #{(this.state.currentQuestionCount)}</h3>
-          <p className="incorrect-display">Incorrect...</p>
-          <p className="correct-display">The correct answer was:</p>
-          <p className="show-correct">{this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}</p>
-          <button className="confirm-move-on" onClick={this.moveToNextQuestion}>Next Question</button>
+          <div className="incorrect-info-container">
+            <div className="incorrect-info-elements">
+              <div className="question-heading">
+                <h3 className="question-alt">Question #{(this.state.currentQuestionCount)}</h3>
+              </div>
+              <p className="incorrect-display">Incorrect...</p>
+              <p className="correct-display">The correct answer was:</p>
+              <p className="show-correct">{this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}</p>
+              <button className="confirm-move-on" onClick={this.moveToNextQuestion}>Next Question</button>
+            </div>
+          </div>
         </div>
       )
     } else {
