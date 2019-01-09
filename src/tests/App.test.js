@@ -24,7 +24,7 @@ describe('App', () => {
 
   beforeEach(() => {
     wrapper = shallow(
-      <App moveToNextQuestion={moveToNextQuestionMock}/>
+      <App />
     );
   });
 
@@ -48,19 +48,11 @@ describe('App', () => {
 
   beforeEach(() => {
     wrapper = shallow(
-      <App moveToNextQuestion={moveToNextQuestionMock}/>
+      <App />
     );
   });
 
-  // it('should call moveToNextQuestion if answerIsCorrect is false', () => {
-  //   wrapper.setState({
-  //     isLoaded: true,
-  //     answerIsCorrect: false,
-  //     allQuestions: currentQuestion
-  //    })
-  //   wrapper.find('.confirm-move-on').simulate('click');
-  //   expect(moveToNextQuestionMock).toHaveBeenCalled();
-  // });
+
 
   it('should only render the QuestionCard and AnswerBank component when loaded', () => {
     wrapper.setState({

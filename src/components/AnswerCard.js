@@ -6,10 +6,9 @@ export default class AnswerCard extends Component {
     super(props);
   };
 
-
-  checkSelection = (event) => {
-    let answerText = event.currentTarget.innerText;
-    this.props.checkAnswer(answerText)
+  checkSelection = (e) => {
+    let answerText = e.target.innerText;
+    this.props.passAnswer(answerText)
   }
 
   render() {

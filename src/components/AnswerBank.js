@@ -7,7 +7,7 @@ export default class AnswerBank extends Component {
     super(props);
   };
 
-  checkAnswer = (isCorrect) => {
+  passAnswer = (isCorrect) => {
     this.props.checkAnswer(isCorrect)
   }
 
@@ -18,7 +18,7 @@ export default class AnswerBank extends Component {
           {
             this.props.shuffledAnswers.map((incorrectAnswer, index) => {
               return (
-                <AnswerCard key={index} answer={incorrectAnswer} checkAnswer={this.props.checkAnswer}/>                                                                                                                  
+                <AnswerCard key={index} answer={incorrectAnswer} passAnswer={this.props.checkAnswer}/>                                                                                                                  
               )
             })
           }
