@@ -3,6 +3,6 @@ import '../../src/styles/main.scss';
 
 export default function QuestionCard(props) {
   return (
-    <p>{props.currentQuestion}</p>
+    <p className="question">{props.currentQuestion}</p>
   )
 };

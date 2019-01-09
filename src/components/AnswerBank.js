@@ -14,7 +14,7 @@ export default class AnswerBank extends Component {
   render() {
     return(
       <div className="answer-bank">
-        <ul>
+        <ul className="answer-list"> 
           {
             this.props.shuffledAnswers.map((incorrectAnswer, index) => {
               return (

@@ -1,24 +1,141 @@
-.app-container {
-  background-color: pink;
-  display: grid;
-  font-family: $body-font;
-  grid-template-rows: 1fr auto;
-  grid-template-areas: 
-  "header"
-  "main";
+body {
+  background-image: url("../../src/images/app-background.jpg");
+  background-size: cover;
+}
+
+.header-bar {
+  background-color: #A67086;
+  border-bottom: 4px solid #5D5156;
+}
+
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-container {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  border: 10px solid #A67086;
+  font-family: $heading-font;
+  font-size: 20px;
+  text-align: center;
+  border-radius: $rounded-corners;
+  background-color: $opaque-white;
+}
+
+.game-container {
+  @extend .info-container;
+  border: none;
+  width: 59%;
+  background-color: transparent;
+}
+
+.score-container {
+  background-color: #B38282;
+  width: 100%;
+  text-align: center;
 }
 
 .app-title {
   font-family: $heading-font;
   font-size: 60px;
-  grid-area: "header";
   justify-self: center;
+  margin: 0px;
+  padding: 20px;
+  text-align: center;
+  text-shadow: 2px 2px #5D5156;
 }
 
-.submit-guess {
-  width: 100px;
-  height: 40px;
-  grid-area: "header";
-  justify-self: center;
+.score {
+  margin: $center;
+  font-family: $heading-font;
+  font-size: 30px;
+  font-weight: $emphasis;
 }
+
+.question-count {
+  font-size: 25px;
+  text-decoration: underline;
+  font-family: $body-font;
+}
+
+.question {
+  @extend .score;
+  width: 70%;
+  text-align: center;
+}
+
+.category {
+
+}
+
+.difficulty {
+
+}
+
+.points-value {
+  margin: 25px;
+}
+
+.category-bold {
+  font-weight: $emphasis;
+}
+
+.difficulty-bold, 
+.points-value-bold {
+  @extend .category-bold;
+}
+
+.app-container-alt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+}
+
+.app-title-alt {
+  @extend .app-title;
+}
+
+.question-alt {
+  @extend .question;
+  font-size: 45px;
+}
+
+.incorrect-display {
+  font-size: 40px;
+}
+
+.correct-display {
+  font-size: 25px;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+.show-correct {
+  font-size: 30px;
+  background-color: white;
+  padding: 20px;
+  border: $border;
+  border-radius: $rounded-corners;
+}
+
+.confirm-move-on {
+  width: 200px;
+  height: 100px;
+  font-size: 24px;
+  border-radius: $rounded-corners;
+  font-weight: bold;
+  box-shadow: $shadow;
+  border: 1px solid #5D5156;
+}
+
+
+
+
+
 

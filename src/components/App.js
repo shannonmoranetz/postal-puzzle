@@ -88,31 +88,45 @@ export default class App extends Component {
     if (this.state.isLoaded === true && this.state.answerIsCorrect === true) {
       return (
         <div className="app-container">
-          <h1 className="app-title">Postal Puzzle</h1>
-          <p>{this.state.score}</p>
-          <h3>Question #{(this.state.currentQuestionCount + 1)}</h3>
-          <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
-          <AnswerBank shuffledAnswers={this.shuffleAnswers()}
-                      isLoaded={this.state.isLoaded}
-                      checkAnswer={this.checkAnswer}/>
+         <div className="header-bar">
+            <h1 className="app-title">Postal Puzzle</h1>
+          </div>
+          <main className="main-content">
+          <div className="info-container">
+            <div className="score-container">
+              <p className="score">Score: {this.state.score}</p>
+            </div>
+            <p className="category"><span className="category-bold">Category: </span>{this.state.allQuestions[this.state.currentQuestionCount].category}</p>
+            <p className="difficulty"><span className="difficulty-bold">Difficulty: </span>{this.state.allQuestions[this.state.currentQuestionCount].difficulty}</p>
+            <p className="points-value">This question is worth <span className="points-value-bold">{this.state.allQuestions[this.state.currentQuestionCount].pointsValue}</span> points.</p>
+          </div>
+         <div className="game-container">
+            <h3 className="question-count">Question #{(this.state.currentQuestionCount + 1)}</h3>
+            <QuestionCard currentQuestion={this.state.allQuestions[this.state.currentQuestionCount].question}/>
+            <AnswerBank shuffledAnswers={this.shuffleAnswers()}
+                        isLoaded={this.state.isLoaded}
+                        checkAnswer={this.checkAnswer}/>
+            </div>
+          </main>
         </div>
       )
     } else if (this.state.isLoaded === true && this.state.answerIsCorrect === false) {
       return (
-        <div className="app-container">
-          <h1 className="app-title">Postal Puzzle</h1>
-          <p>{this.state.score}</p>
-          <h3>Question #{(this.state.currentQuestionCount)}</h3>
-          <p>Incorrect...</p>
-          <p>The correct answer was:</p>
-          <p>{this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}</p>
+        <div className="app-container-alt">
+          <div className="header-bar">
+            <h1 className="app-title-alt">Postal Puzzle</h1>
+          </div>
+          <h3 className="question-alt">Question #{(this.state.currentQuestionCount)}</h3>
+          <p className="incorrect-display">Incorrect...</p>
+          <p className="correct-display">The correct answer was:</p>
+          <p className="show-correct">{this.state.allQuestions[this.state.currentQuestionCount].correctAnswer}</p>
           <button className="confirm-move-on" onClick={this.moveToNextQuestion}>Next Question</button>
         </div>
       )
     } else {
       return (
         <div>
-          <p>loading...</p>
+          <p className="loading">Now Loading...</p>
         </div>
       )
     }
